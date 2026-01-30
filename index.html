@@ -1,0 +1,165 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Safe-Sora</title>
+<link rel="icon" type="image/png" href="static/images/favicon.png">
+<link href="style.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="content">
+  <h1 class="paper-title">
+    <img class="paper-title-logo" src="fig/logo.png" alt="logo">
+    <span class="paper-title-text">
+      Generation Enhances Understanding in Unified Multimodal <br> Models via Multi-Representation Generation
+    </span>
+  </h1>
+  <!-- <h1><span><img src="src/img/pia.png" style="height: 72px;"></span><strong> :Your Personalized Image Animator <br> via Plug-and-Play Modules in Text-to-Image Models</strong></h1> -->
+  <p id="authors">
+    <span class="author-names">
+    Zihan Su<sup>1 2&dagger;*</sup>
+    Hongyang Wei<sup>1*</sup>
+    Kangrui Cen<sup>3*</sup>
+    Yong Wang<sup>2&Dagger;</sup>
+    Guanhua Chen<sup>4</sup>
+    <br>
+    Chun Yuan<sup>1</sup>
+    Xiangxiang Chu<sup>2</sup>
+    </span>
+
+    <span class="author-affiliations"><br>
+        <sup>1</sup> Tsinghua University
+        <sup>2</sup> AMAP, Alibaba Group <br>
+        <sup>3</sup> Shanghai Jiao Tong University
+        <sup>4</sup> Southern University of Science and Technology
+        <br>
+        &dagger; Work done during internship at AMAP, Alibaba Group
+        * Equal contribution
+        &Dagger; Project lead
+      </span>
+    </p>
+
+        <!-- <div style="text-align: center;">
+          <a target="_blank" href="https://www.tsinghua.edu.cn/">
+          <img src="fig/thu.png" alt="Institution 1" style="width: auto; height: 70px; margin-right: 20px;"></a>
+          <a target="_blank" href="https://arc.tencent.com/zh/index">
+          <img src="fig/ARC.png" alt="Institution 2" style="width: auto; height: 70px;"></a>
+        </div> -->
+
+        <style>
+          /* Authors vs affiliations */
+          #authors .author-names {
+            font-weight: 800;
+            color: #163b76;
+          }
+          #authors .author-affiliations {
+            font-weight: 400;
+            color: #444;
+          }
+
+          /* 定义一个名为.link-button的类，用于样式化链接按钮 */
+          .link-button {
+            display: inline-block; /* 使元素以内联块的形式显示 */
+            padding: 6px 10px; /* 内边距，垂直8px，水平16px */
+            margin: 8px; /* 外边距，四周均为4px */
+            border: 2px solid #007bff; /* 边框，宽度1px，样式实线，颜色#007bff */
+            border-radius: 7px; /* 边框圆角，半径5px */
+            text-decoration: none; /* 移除文本装饰（如下划线） */
+            font-weight: bold; /* 字体加粗 */
+            color: #007bff; /* 文字颜色 */
+            transition: background-color 0.3s, color 0.3s; /* 背景颜色和文字颜色的过渡效果，持续时间0.3秒 */
+          }
+          /* 当鼠标悬停在.link-button上时的样式 */
+          .link-button:hover {
+            background-color: #007bff; /* 背景颜色 */
+            color: white; /* 文字颜色 */
+          }
+          /* 定义.link-button内部的i标签样式 */
+          .link-button i {
+            margin-right: 8px; /* 右外边距，8px */
+          }
+        </style>
+        
+        <div style="text-align: center;">
+          <a href="https://arxiv.org/abs/2601.21406" target="_blank" class="link-button">
+            <i class="fas fa-file-alt"></i> <img src="fig/arxiv.png" alt="arxiv", style="width: 16px;"> Paper</a>
+          <a href="https://github.com/Sugewud/UniMRG" target="_blank" class="link-button">
+            <i class="fab fa-github"></i> <img src="fig/github.png" alt="github", style="width: 16px;"> Code</a>
+        </div>
+
+
+</div>
+
+
+<div class="content">
+  <h2 style="text-align:center;"><strong>Abstract</strong></h2>
+  <p>Unified Multimodal Models (UMMs) integrate both visual understanding and generation within a single framework. Their ultimate aspiration is to create a cycle where <em>understanding and generation mutually reinforce each other</em>. While recent post-training methods have successfully leveraged understanding to enhance generation, the reverse direction of utilizing generation to improve understanding remains largely unexplored. In this work, we propose <strong>UniMRG</strong> (<strong>Uni</strong>fied <strong>M</strong>ulti-<strong>R</strong>epresentation <strong>G</strong>eneration), a simple yet effective architecture-agnostic post-training method. UniMRG enhances the understanding capabilities of UMMs by incorporating auxiliary generation tasks. Specifically, we train UMMs to generate multiple intrinsic representations of input images, namely <em>pixel</em> (reconstruction), <em>depth</em> (geometry), and <em>segmentation</em> (structure), alongside standard visual understanding objectives. By synthesizing these diverse representations, UMMs capture complementary information regarding appearance, spatial relations, and structural layout. Consequently, UMMs develop a deeper and more comprehensive understanding of visual inputs. Extensive experiments across diverse UMM architectures demonstrate that our method notably enhances fine-grained perception, reduces hallucinations, and improves spatial understanding, while simultaneously boosting generation capabilities.</p>
+    <img src="fig/Application.png" class="teaser-gif" style="width:100%;">
+  </div>
+
+
+<div class="content">
+    <h2 style="text-align:center;"><strong>Unified Multi-Representation Generation</strong></h2>
+    <p><b>Overview of UniMRG.</b> 
+      The input image is fed into the visual understanding encoder, and the UMM is jointly trained on four tasks:<br>
+      (1) <em>Image reconstruction</em>: reconstructing the input image to enhance generation capabilities.<br>
+      (2) <em>Image-to-depth</em>: generating depth maps to learn geometric cues and spatial relations.<br>
+      (3) <em>Image-to-segmentation</em>: generating segmentation maps to learn structural cues and region partitions.<br>
+      (4) <em>Image understanding</em>: performing standard vision-language understanding tasks.<br>
+      The understanding encoder is updated for UMMs with a shared encoder for generation and understanding; otherwise it is frozen.</p>
+    <br>
+    <img class="summary-img" src="fig/pipeline.png" style="width:100%;"> <br>
+  </div>
+
+  <div class="content">
+    <h2 style="text-align:center;"><strong>Main Results</strong></h2>
+
+    <p style="font-size: 19px; font-style: italic; text-align: left;">
+      <b>Comparison of UniMRG with other post-training methods for UMMs.</b>
+       The green row shows the Gain (↑) over the base model. SFT denotes supervised fine-tuning using only the visual understanding loss.
+    </p>
+  
+    <img src="fig/main_table.png" class="teaser-gif" style="width:100%;">
+
+    <br>
+  
+    <p style="font-size: 19px; font-style: italic; text-align: left;">
+      <b>Comparison with state-of-the-arts on visual understanding benchmarks.</b> 
+       Our model is OpenUni post-trained with UniMRG.
+    </p>
+    <img src="fig/compare.png" class="teaser-gif" style="width:100%;">
+    <br>
+  
+    <p style="font-size: 19px; font-style: italic; text-align: left;">
+      <b>Qualitative generation results.</b>
+       UMMs post-trained with UniMRG better follow prompts involving multiple objects, spatial relationships, and complex attributes.
+    </p>
+    <img src="fig/generation.png" class="teaser-gif" style="width:100%;">
+    <br>
+
+    <p style="font-size: 19px; font-style: italic; text-align: left;">
+      <b>Qualitative understanding results.</b>
+       UMMs post-trained with UniMRG exhibit improved fine-grained perception, reduced hallucinations, and enhanced spatial understanding.
+    </p>
+    <img src="fig/understand.png" class="teaser-gif" style="width:100%;">
+    <br>
+  </div>
+  
+
+
+
+<div class="content">
+  <h2 style="text-align:center;"><strong>BibTex</strong></h2>
+  <pre><code>@misc{UniMRG,
+    title={Generation Enhances Understanding in Unified Multimodal Models via Multi-Representation Generation}, 
+    author={Zihan Su and Hongyang Wei and Kangrui Cen and Yong Wang and Guanhua Chen and Chun Yuan and Xiangxiang Chu},
+    year={2026},
+    eprint={2601.21406},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV},
+    url={https://arxiv.org/abs/2601.21406}, 
+}</code></pre>
+</div>
+
+
+</html>
